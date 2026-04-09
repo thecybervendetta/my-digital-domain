@@ -55,7 +55,7 @@ const reports = [
   {
     title: "Wazuh Endpoint",
     desc: "Endpoint Security monitoring and threat analysis.",
-    link: "#",
+    link: "https://drive.google.com/file/d/1pr41sUk0fnd1UNhQiP7rznbURLmEHrGa/view?usp=drive_link",
   },
 ];
 
