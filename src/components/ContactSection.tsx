@@ -1,10 +1,11 @@
 import { Mail } from "lucide-react";
+import { ScrollReveal } from "@/hooks/useScrollAnimation";
 
 const ContactSection = () => {
   return (
     <section id="contact" className="py-24 relative">
       <div className="container mx-auto px-6">
-        <div className="max-w-2xl mx-auto text-center">
+        <ScrollReveal className="max-w-2xl mx-auto text-center">
           <h2 className="font-mono text-xs text-primary tracking-[0.3em] uppercase mb-4">Contact</h2>
           <h3 className="text-3xl md:text-4xl font-bold mb-4">Let's Work Together</h3>
           <p className="text-muted-foreground text-lg mb-10">
@@ -25,7 +26,7 @@ const ContactSection = () => {
               <Mail className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
             </a>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );
