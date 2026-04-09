@@ -52,11 +52,7 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        cyber: {
-          glow: "hsl(var(--cyber-glow))",
-          dim: "hsl(var(--cyber-dim))",
-        },
-        "surface-glass": "hsl(var(--surface-glass))",
+        "surface-elevated": "hsl(var(--surface-elevated))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

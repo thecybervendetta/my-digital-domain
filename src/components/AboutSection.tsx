@@ -1,36 +1,48 @@
-import { Terminal, Shield, Globe, Zap } from "lucide-react";
+import { Terminal, Shield, Code, Eye } from "lucide-react";
 
 const highlights = [
-  { icon: Globe, label: "Full-Stack Development", desc: "React, Node.js, TypeScript, and modern cloud architectures" },
-  { icon: Shield, label: "Penetration Testing", desc: "OWASP, vulnerability assessment, and security auditing" },
-  { icon: Terminal, label: "DevSecOps", desc: "CI/CD pipelines with integrated security scanning" },
-  { icon: Zap, label: "Performance", desc: "Optimized applications with sub-second load times" },
+  { icon: Code, label: "Full-Stack Development", desc: "React, Node.js, Python — crafting sleek, dynamic user interfaces" },
+  { icon: Shield, label: "Offensive Security", desc: "Penetration testing, vulnerability assessment, security auditing" },
+  { icon: Terminal, label: "Cybersecurity Tooling", desc: "Automated OSINT and pen-testing tools that uncover what others miss" },
+  { icon: Eye, label: "Clean & Secure Code", desc: "Fast, secure, and purpose-driven solutions — never an afterthought" },
 ];
 
 const AboutSection = () => {
   return (
     <section id="about" className="py-24 relative">
       <div className="container mx-auto px-6">
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="font-mono text-sm text-primary tracking-widest uppercase mb-4">About Me</h2>
-          <h3 className="text-3xl md:text-4xl font-bold mb-6">
-            Developer by Day,<br />
-            <span className="text-primary">Security Analyst</span> by Nature
-          </h3>
-          <p className="text-muted-foreground text-lg leading-relaxed">
-            With a dual focus on web development and cybersecurity, I bring a unique perspective to every project.
-            I don't just build — I build with security as a first-class concern, ensuring robust and resilient digital products.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {highlights.map((item) => (
-            <div key={item.label} className="glass rounded-xl p-6 hover:border-primary/30 transition-colors group">
-              <item.icon className="w-8 h-8 text-primary mb-4 group-hover:text-glow transition-all" />
-              <h4 className="font-semibold mb-2">{item.label}</h4>
-              <p className="text-sm text-muted-foreground">{item.desc}</p>
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <h2 className="font-mono text-xs text-primary tracking-[0.3em] uppercase mb-4">About Me</h2>
+            <h3 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
+              Developer by Day,<br />
+              <span className="gradient-text">Security Analyst</span> by Nature
+            </h3>
+            <div className="space-y-4 text-muted-foreground leading-relaxed">
+              <p>
+                I'm <strong className="text-foreground">Richard Uwumwonse</strong> — a developer and <strong className="text-primary/90">cybersecurity specialist</strong> with a deep fascination for <strong className="text-primary/90">offensive security</strong> and building software that refuses to break.
+              </p>
+              <p>
+                With five years of <strong className="text-foreground">Python</strong> under my belt, I don't just write code — I engineer solutions that are fast, secure, and purpose-driven. My playground spans <strong className="text-foreground">full-stack development</strong> and <strong className="text-foreground">cybersecurity tooling</strong>.
+              </p>
+              <p>
+                Curiosity fuels everything I do. One day I'm diving into the intricacies of a new JavaScript framework, the next I'm dissecting the anatomy of a security vulnerability just to understand how it ticks.
+              </p>
             </div>
-          ))}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {highlights.map((item) => (
+              <div
+                key={item.label}
+                className="glass rounded-xl p-5 hover:border-primary/30 transition-all duration-300 group gradient-border"
+              >
+                <item.icon className="w-7 h-7 text-primary mb-3 group-hover:scale-110 transition-transform" />
+                <h4 className="font-semibold text-sm mb-1.5">{item.label}</h4>
+                <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
