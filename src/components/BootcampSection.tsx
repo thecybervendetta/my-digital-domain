@@ -1,4 +1,8 @@
-import { BookOpen, Clock, DollarSign, Phone } from "lucide-react";
+import { BookOpen, Clock, DollarSign, Phone, UserPlus } from "lucide-react";
+import { ScrollReveal } from "@/hooks/useScrollAnimation";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 
 const features = [
   "Master Python Fundamentals from scratch",
@@ -6,17 +10,42 @@ const features = [
   "Automate Ethical Hacking tasks and scripting",
 ];
 
+const PAYSTACK_PUBLIC_KEY = "pk_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+const BOOTCAMP_FEE = 45000; // in Naira
+
 const BootcampSection = () => {
+  const [showForm, setShowForm] = useState(false);
+  const [reg, setReg] = useState({ name: "", email: "", phone: "" });
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+
+  const handlePaystack = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!reg.name.trim() || !reg.email.trim() || !reg.phone.trim()) {
+      toast({ title: "Please fill in all fields", variant: "destructive" });
+      return;
+    }
+
+    // For now, open WhatsApp with registration details since Paystack key needs to be configured
+    const message = encodeURIComponent(
+      `Hello! I'd like to register for the Python for Cybersecurity Bootcamp.\n\nName: ${reg.name}\nEmail: ${reg.email}\nPhone: ${reg.phone}`
+    );
+    window.open(`https://wa.me/2348109773147?text=${message}`, "_blank");
+    toast({ title: "Redirecting to WhatsApp!", description: "Complete your registration via WhatsApp." });
+    setReg({ name: "", email: "", phone: "" });
+    setShowForm(false);
+  };
+
   return (
     <section id="bootcamp" className="py-24 relative">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
+        <ScrollReveal className="text-center mb-16">
           <h2 className="font-mono text-xs text-primary tracking-[0.3em] uppercase mb-4">Bootcamp</h2>
           <h3 className="text-3xl md:text-4xl font-bold">Python for Cybersecurity</h3>
           <p className="text-muted-foreground mt-3">A 1-Month Practical Bootcamp by <span className="text-primary">TheCyberVendetta</span></p>
-        </div>
+        </ScrollReveal>
 
-        <div className="max-w-3xl mx-auto">
+        <ScrollReveal className="max-w-3xl mx-auto" delay={0.15}>
           <div className="glass rounded-2xl p-8 md:p-10 gradient-border">
             <div className="grid sm:grid-cols-3 gap-6 mb-8">
               <div className="flex items-center gap-3">
@@ -63,24 +92,73 @@ const BootcampSection = () => {
               ))}
             </ul>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <a
-                href="tel:+2348109773147"
-                className="px-8 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all text-center border-glow"
-              >
-                Reserve Your Spot
-              </a>
-              <a
-                href="https://youtube.com/@thecybervendetta"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-8 py-3 rounded-lg glass font-semibold hover:bg-secondary/80 transition-all text-center"
-              >
-                YouTube Channel
-              </a>
-            </div>
+            {/* Registration form */}
+            {showForm ? (
+              <form onSubmit={handlePaystack} className="space-y-4 mb-6 p-6 rounded-xl bg-secondary/30 border border-border/30">
+                <h4 className="font-semibold flex items-center gap-2 text-sm">
+                  <UserPlus className="w-4 h-4 text-primary" />
+                  Register for Bootcamp
+                </h4>
+                <Input
+                  placeholder="Full Name"
+                  value={reg.name}
+                  onChange={(e) => setReg({ ...reg, name: e.target.value })}
+                  maxLength={100}
+                  className="bg-secondary/50 border-border/50"
+                />
+                <Input
+                  type="email"
+                  placeholder="Email Address"
+                  value={reg.email}
+                  onChange={(e) => setReg({ ...reg, email: e.target.value })}
+                  maxLength={255}
+                  className="bg-secondary/50 border-border/50"
+                />
+                <Input
+                  type="tel"
+                  placeholder="Phone Number"
+                  value={reg.phone}
+                  onChange={(e) => setReg({ ...reg, phone: e.target.value })}
+                  maxLength={20}
+                  className="bg-secondary/50 border-border/50"
+                />
+                <div className="flex gap-3">
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="flex-1 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all border-glow disabled:opacity-50"
+                  >
+                    Register via WhatsApp
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowForm(false)}
+                    className="px-6 py-3 rounded-lg glass font-semibold hover:bg-secondary/80 transition-all"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button
+                  onClick={() => setShowForm(true)}
+                  className="px-8 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all text-center border-glow"
+                >
+                  Reserve Your Spot
+                </button>
+                <a
+                  href="https://youtube.com/@thecybervendetta"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-8 py-3 rounded-lg glass font-semibold hover:bg-secondary/80 transition-all text-center"
+                >
+                  YouTube Channel
+                </a>
+              </div>
+            )}
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );

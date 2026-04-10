@@ -5,10 +5,12 @@ import ProjectsSection from "@/components/ProjectsSection";
 import BootcampSection from "@/components/BootcampSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import ParticleBackground from "@/components/ParticleBackground";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
+      <ParticleBackground />
       <Navbar />
       <HeroSection />
       <div className="section-divider" />
