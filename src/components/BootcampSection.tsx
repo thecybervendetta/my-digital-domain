@@ -1,4 +1,4 @@
-import { BookOpen, Clock, DollarSign, Phone, UserPlus } from "lucide-react";
+import { BookOpen, Clock, CreditCard, DollarSign, Phone, UserPlus } from "lucide-react";
 import { ScrollReveal } from "@/hooks/useScrollAnimation";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
@@ -10,7 +10,7 @@ const features = [
   "Automate Ethical Hacking tasks and scripting",
 ];
 
-const PAYSTACK_PUBLIC_KEY = "pk_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+const PAYSTACK_PAYMENT_URL = "https://paystack.shop/pay/wr66sikoqd";
 const BOOTCAMP_FEE = 45000; // in Naira
 
 const BootcampSection = () => {
@@ -19,19 +19,32 @@ const BootcampSection = () => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
-  const handlePaystack = (e: React.FormEvent) => {
+  const handleWhatsAppSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!reg.name.trim() || !reg.email.trim() || !reg.phone.trim()) {
       toast({ title: "Please fill in all fields", variant: "destructive" });
       return;
     }
 
-    // For now, open WhatsApp with registration details since Paystack key needs to be configured
     const message = encodeURIComponent(
       `Hello! I'd like to register for the Python for Cybersecurity Bootcamp.\n\nName: ${reg.name}\nEmail: ${reg.email}\nPhone: ${reg.phone}`
     );
     window.open(`https://wa.me/2348109773147?text=${message}`, "_blank");
     toast({ title: "Redirecting to WhatsApp!", description: "Complete your registration via WhatsApp." });
+    setReg({ name: "", email: "", phone: "" });
+    setShowForm(false);
+  };
+
+  const handlePaystackSubmit = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!reg.name.trim() || !reg.email.trim() || !reg.phone.trim()) {
+      toast({ title: "Please fill in all fields", variant: "destructive" });
+      return;
+    }
+
+    const paystackUrl = `${PAYSTACK_PAYMENT_URL}?email=${encodeURIComponent(reg.email)}&name=${encodeURIComponent(reg.name)}&phone=${encodeURIComponent(reg.phone)}`;
+    window.open(paystackUrl, "_blank");
+    toast({ title: "Redirecting to Paystack!", description: "Complete your secure payment online." });
     setReg({ name: "", email: "", phone: "" });
     setShowForm(false);
   };
@@ -94,17 +107,21 @@ const BootcampSection = () => {
 
             {/* Registration form */}
             {showForm ? (
-              <form onSubmit={handlePaystack} className="space-y-4 mb-6 p-6 rounded-xl bg-secondary/30 border border-border/30">
+              <form onSubmit={handleWhatsAppSubmit} className="space-y-4 mb-6 p-6 rounded-xl bg-secondary/30 border border-border/30">
                 <h4 className="font-semibold flex items-center gap-2 text-sm">
                   <UserPlus className="w-4 h-4 text-primary" />
                   Register for Bootcamp
                 </h4>
+                <p className="text-xs text-muted-foreground">
+                  Please provide your contact information to register. You can choose to pay securely online via Paystack, or finalize registration manually via WhatsApp.
+                </p>
                 <Input
                   placeholder="Full Name"
                   value={reg.name}
                   onChange={(e) => setReg({ ...reg, name: e.target.value })}
                   maxLength={100}
                   className="bg-secondary/50 border-border/50"
+                  required
                 />
                 <Input
                   type="email"
@@ -113,6 +130,7 @@ const BootcampSection = () => {
                   onChange={(e) => setReg({ ...reg, email: e.target.value })}
                   maxLength={255}
                   className="bg-secondary/50 border-border/50"
+                  required
                 />
                 <Input
                   type="tel"
@@ -121,14 +139,25 @@ const BootcampSection = () => {
                   onChange={(e) => setReg({ ...reg, phone: e.target.value })}
                   maxLength={20}
                   className="bg-secondary/50 border-border/50"
+                  required
                 />
-                <div className="flex gap-3">
+                <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={handlePaystackSubmit}
+                    disabled={loading}
+                    className="flex-1 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all border-glow flex items-center justify-center gap-2 disabled:opacity-50"
+                  >
+                    <CreditCard className="w-4 h-4" />
+                    Pay via Paystack
+                  </button>
                   <button
                     type="submit"
                     disabled={loading}
-                    className="flex-1 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all border-glow disabled:opacity-50"
+                    className="flex-1 px-6 py-3 rounded-lg glass border border-border/50 font-semibold hover:bg-secondary/80 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                   >
-                    Register via WhatsApp
+                    <Phone className="w-4 h-4 text-emerald-500" />
+                    Via WhatsApp
                   </button>
                   <button
                     type="button"
@@ -141,17 +170,27 @@ const BootcampSection = () => {
               </form>
             ) : (
               <div className="flex flex-col sm:flex-row gap-4">
+                <a
+                  href={PAYSTACK_PAYMENT_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-8 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all text-center border-glow flex items-center justify-center gap-2"
+                >
+                  <CreditCard className="w-5 h-5" />
+                  Pay via Paystack
+                </a>
                 <button
                   onClick={() => setShowForm(true)}
-                  className="px-8 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all text-center border-glow"
+                  className="px-8 py-3 rounded-lg glass border border-border/50 font-semibold hover:bg-secondary/80 transition-all text-center flex items-center justify-center gap-2"
                 >
-                  Reserve Your Spot
+                  <UserPlus className="w-5 h-5" />
+                  Register / WhatsApp
                 </button>
                 <a
                   href="https://youtube.com/@thecybervendetta"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-8 py-3 rounded-lg glass font-semibold hover:bg-secondary/80 transition-all text-center"
+                  className="px-8 py-3 rounded-lg glass font-semibold hover:bg-secondary/80 transition-all text-center flex items-center justify-center gap-2"
                 >
                   YouTube Channel
                 </a>
